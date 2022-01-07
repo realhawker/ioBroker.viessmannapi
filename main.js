@@ -475,9 +475,29 @@ class Viessmannapi extends utils.Adapter {
                 }
                 const data = {};
                 if (param) {
-                    data[param] = state.val;
-                    if (!isNaN(state.val)) {
-                        data[param] = Number(state.val);
+                    if(Array.isArray(param)) {
+                        if(typeof state.val == 'string') {
+                            let values = JSON.parse(state.val);
+                            if(Array.isArray(values) {
+                               if(values.length == param.length) {
+                                    for(let i = 0; i < values.length; i++) {
+                                        data[param[i]] = values[i];
+                                        if (!isNaN(values[i])) {
+                                            data[param[i]] = Number(values[i]);
+                                        }
+                                    } 
+                               } else {
+                                   this.log.error("Amount of parameters not correct.");
+                               }
+                            } else {
+                                this.log.error("Value has to be an array.");
+                            }
+                        }
+                    } else {
+                        data[param] = state.val;
+                        if (!isNaN(state.val)) {
+                            data[param] = Number(state.val);
+                        }
                     }
                 }
                 const headers = {
